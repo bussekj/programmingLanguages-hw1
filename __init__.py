@@ -36,9 +36,9 @@ def get_dynamic_re() -> DynamicScope:
     dictionary: Dict[str, Any] = {}
 
     # grabs the local variables in the stack frames
-    for frameInfo in stack[1:]:
+    for frame_info in stack[1:]:
         # gets the frame and the local variables
-        frame = frameInfo.frame
+        frame = frame_info.frame
         localDictionary = frame.f_locals
 
         # filters the free variables
