@@ -31,8 +31,9 @@ class DynamicScope(abc.Mapping):
         return len(self.env)
 
 def get_dynamic_re() -> DynamicScope: 
+    # sets stack and empty dictionary
     stack = inspect.stack()
-    dictionary = {}
+    dictionary: Dict[str, Any] = {}
 
     # grabs the local variables in the stack frames
     for frameInfo in stack[1:]:
