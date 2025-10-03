@@ -12,6 +12,8 @@ class DynamicScope(abc.Mapping):
 
     # returns the item of the given key
     def __getitem__(self, key: str) -> Optional[Any]:
+        if key not in self.env:
+            raise NameError(f"Name '{key}' not found.")
         return self.env[key]
     
     # stores an item at the given key
@@ -33,7 +35,7 @@ class DynamicScope(abc.Mapping):
 def get_dynamic_re() -> DynamicScope: 
     # sets stack and empty dictionary
     stack = inspect.stack()
-    dictionary: Dict[str, Any] = {}
+    env: Dict[str, Any] = {}
 
     # grabs the local variables in the stack frames
     for frame_info in stack[1:]:
@@ -46,8 +48,8 @@ def get_dynamic_re() -> DynamicScope:
 
         # iterates through the local variables in each frame
         for key, value in frame.f_locals.items():
-            if key not in dictionary and key not in freeVariables:
-                dictionary[key] = value
+            if key not in env and key not in freeVariables:
+                env[key] = value
 
 
-    return DynamicScope(dictionary)
+    return DynamicScope(env)
