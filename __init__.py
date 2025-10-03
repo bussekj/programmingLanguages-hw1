@@ -6,9 +6,9 @@ import inspect
 
 class DynamicScope(abc.Mapping):
 
-    # initializes the empty dictionary
-    def __init__(self, env):
-        self.env: Dict[str, Optional[Any]] = {}
+    # initialize with an optional env dict (copy to avoid aliasing)
+    def __init__(self, env: Optional[Dict[str, Any]] = None):
+        self.env: Dict[str, Optional[Any]] = dict(env) if env is not None else {}
 
     # returns the item of the given key
     def __getitem__(self, key: str) -> Optional[Any]:
@@ -47,9 +47,9 @@ def get_dynamic_re() -> DynamicScope:
         freeVariables = set(frame.f_code.co_freevars)
 
         # iterates through the local variables in each frame
-        for key, value in frame.f_locals.items():
+        for key, value in localDictionary.items():
             if key not in env and key not in freeVariables:
-                env.__setitem__(key, value)
+                env[key] = value
 
 
     return DynamicScope(env)
