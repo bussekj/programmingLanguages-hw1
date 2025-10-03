@@ -49,7 +49,7 @@ def get_dynamic_re() -> DynamicScope:
         # iterates through the local variables in each frame
         for key, value in frame.f_locals.items():
             if key not in env and key not in freeVariables:
-                env[key] = value
+                env.__setitem__(key, value)
 
 
     return DynamicScope(env)
