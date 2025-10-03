@@ -7,7 +7,7 @@ import inspect
 class DynamicScope(abc.Mapping):
 
     # initializes the empty dictionary
-    def __init__(self):
+    def __init__(self, env):
         self.env: Dict[str, Optional[Any]] = {}
     # returns the item of the given key
     def __getitem__(self, key: str) -> Optional[Any]:
