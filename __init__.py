@@ -5,9 +5,28 @@ import inspect
 
 
 class DynamicScope(abc.Mapping):
+
+    # initializes the empty dictionary
     def __init__(self):
         self.env: Dict[str, Optional[Any]] = {}
+    # returns the item of the given key
+    def __getitem__(self, key: str) -> Optional[Any]:
+        return self.env[key]
+    # stores an item at the given key
+    def __setitem__(self, key: str, value: Optional[Any]) -> None:
+        self.env[key] = value
+    # deletes the item at the given key
+    def __delitem__(self, key: str) -> None:
+        del self.env[key]
+    # returns an iterator over the keys of the dictionary
+    def __iter__(self) -> Iterator[str]:
+        return iter(self.env)
+    # returns number of items in the dictionary
+    def __len__(self) -> int:
+        return len(self.env)
 
+def get_dynamic_re() -> DynamicScope: 
+    stack = inspect.stack()
+    dictionary = {}
 
-def get_dynamic_re() -> DynamicScope:
-    return None
+    return DynamicScope(dictionary)
